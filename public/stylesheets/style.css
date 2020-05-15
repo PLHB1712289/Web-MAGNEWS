@@ -1,0 +1,41 @@
+.nav-style{
+  padding: 0 0px !important;
+  position: fixed !important;
+  width: 100% !important;
+}
+
+.nav-category{
+  border-radius: 2px;
+  width: 95px;
+  height: 40px;
+  margin: 0 2px;
+  padding: 10px !important;  
+}
+
+.nav-category:hover{
+  background-color: #52a8db;
+}
+
+.nav-ul-category{
+  margin-left: 25% !important;
+  background-color: blueviolet !important;
+
+}
+
+.content-news{
+  padding-top: 100px;
+}
+
+@media only screen and (max-width: 992px) {
+  .nav-style{
+      padding: 0 5px !important;
+  }
+
+  .nav-category{
+      border-radius: 2px;
+      width: auto;
+      margin: 0 2px;
+      padding: 10px !important;
+      text-align: right;
+  }
+}
