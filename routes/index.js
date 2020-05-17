@@ -5,6 +5,7 @@ const {coordinateHCMCity, webVOV} = require('../resource')
 
 const {scrapingHomeVOV} = require('../services/scraping');
 const {groupingNewsHome} = require('../services/helper');
+const {getCache, storage} = require('../cache/cache');
 
 
 const getNewsHomePage = async () => {
@@ -12,13 +13,13 @@ const getNewsHomePage = async () => {
   const businessData = await scrapingHomeVOV(webVOV.categoryBusiness);
   const worldData = await scrapingHomeVOV(webVOV.categoryWorld);
   const healthData = await scrapingHomeVOV(webVOV.categoryHealth);
-  const armyData = await scrapingHomeVOV(webVOV.categoryArmy);
+  //const armyData = await scrapingHomeVOV(webVOV.categoryArmy);
 
   const sportNews = groupingNewsHome(sportData, "sport");
   const businessNews = groupingNewsHome(businessData, "business");
   const worldNews = groupingNewsHome(worldData, "world");
   const healthNews = groupingNewsHome(healthData, "health");
-  const armyNews = groupingNewsHome(armyData, "army");
+  //const armyNews = groupingNewsHome(armyData, "army");
 
   const featurePostLarge = sportNews.newsFeaturePostLarge;
   const featurePostMedium = worldNews.newsFeaturePostLarge;
@@ -38,9 +39,10 @@ const getNewsHomePage = async () => {
   postCategory.push({
     category: "Sức khỏe", linkCategory: "/health", news: healthNews
   });
-  postCategory.push({
-    category: "Quân sự", linkCategory: "/army", news: armyNews
-  });
+
+  // postCategory.push({
+  //   category: "Quân sự", linkCategory: "/army", news: armyNews
+  // });
 
   return {postCategory, featurePostMedium, featurePostLarge, featurePostSmallBus, featurePostSmallHeal};
 }
@@ -48,7 +50,14 @@ const getNewsHomePage = async () => {
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   const temp = await apiWeather(coordinateHCMCity);
-  const {postCategory, featurePostMedium, featurePostLarge, featurePostSmallBus, featurePostSmallHeal} = await getNewsHomePage();
+
+  if(typeof getCache() == 'undefined')
+  {
+    const cacheStorage = await getNewsHomePage();
+    storage(cacheStorage);
+  }
+
+  const {postCategory, featurePostMedium, featurePostLarge, featurePostSmallBus, featurePostSmallHeal} = getCache();
   
   res.render('index', 
   {categoryNews: 'Trang chủ', temp, 

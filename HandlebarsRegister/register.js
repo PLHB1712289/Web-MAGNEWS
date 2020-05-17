@@ -3,7 +3,7 @@ const registerItem = (handlebars) =>{
         return new handlebars.SafeString(
             '<div class="m-b-30">' +
 				`<a href="${item.link}" class="wrap-pic-w hov1 trans-03">`+
-					`<img src="${item.img}" alt="IMG">`+
+					`<img class="photo-lazy" data-src="${item.img}" alt="IMG">`+
 				'</a>'
                 +
 				'<div class="p-t-20">'+
@@ -45,7 +45,7 @@ const registerItems = (handlebars)=>{
             +
             `<a href="${item.link}" class="size-w-1 wrap-pic-w hov1 trans-03">`
             +
-                `<img src="${item.img}" alt="IMG">`
+                `<img class="photo-lazy" data-src="${item.img}" alt="IMG">`
             +
             '</a>'
             +

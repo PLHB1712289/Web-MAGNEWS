@@ -53,15 +53,12 @@ const scrapingHomeVOV = async (category)=>{
         if(story.length > 3){
             break;
         }
-        let img = $(dataStory[i]).find('img');
-        let imgSrc = img.attr('src');
-        if (!img.hasClass("lazy")) img.addClass("lazy");
-        if(typeof imgSrc != 'undefined'){
+        let img = $(dataStory[i]).find('img').attr('src');
+        if(typeof img != 'undefined'){
             const title = $(dataStory[i]).find('a').text().replace(/\s\s+/, '').replace('\n', '');
             const shortContent = $(dataStory[i]).find('p').text().replace('\n', '');
             const link = web + $(dataStory[i]).find('a').attr('href');
-            img.removeAttr("src");
-            img.attr("dataSrc", imgSrc);
+            
             if(link.split(categories[category]).length >= 2)
             {
                 story.push({
@@ -99,8 +96,7 @@ const scrapingVOVNews = async(url)=>{
             body.push({
                 img: {
                     title,
-                    dataSrc: $(e).attr('src'),
-                    class: 'lazy'
+                    src: $(e).attr('src')
                 },
                 paragraph: ''
             });

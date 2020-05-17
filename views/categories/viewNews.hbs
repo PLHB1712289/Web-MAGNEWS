@@ -61,6 +61,7 @@
                         {{#each newsFeaturePost}}
 						<div class="col-sm-6 p-rl-1 p-b-2">
 							<div class="bg-img1 size-a-14 how1 pos-relative" style="background-image: url({{img}});">
+		
 								<a href="{{link}}" class="dis-block how1-child1 trans-03"></a>
 
 								<div class="flex-col-e-s s-full p-rl-25 p-tb-20">
@@ -94,7 +95,7 @@
 							<!-- Item latest -->	
 							<div class="m-b-45">
 								<a href="{{link}}" class="wrap-pic-w hov1 trans-03">
-									<img src="{{img}}" alt="IMG">
+									<img class="photo-lazy" data-src="{{img}}" alt="IMG">
 								</a>
 
 								<div class="p-t-16">
@@ -151,7 +152,7 @@
 						<!--  -->
 						<div class="flex-c-s p-b-50">
 							<a href="#">
-								<img class="max-w-full" src="images/banner-02.jpg" alt="IMG">
+								<img class="max-w-full photo-lazy" data-src="images/banner-02.jpg" alt="IMG">
 							</a>
 						</div>
 						
