@@ -15,8 +15,6 @@ router.get('/', async function(req, res, next) {
   res.render('categories/viewNews', 
   {newsFeaturePostLarge, newsFeaturePost, newsPost, newsShortContent,
   categoryNews: "Thể thao", temp});
-
-  
 });
 
 module.exports = router;
