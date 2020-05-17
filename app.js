@@ -15,6 +15,7 @@ var armyRouter = require('./routes/army');
 var healthRouter = require('./routes/health');
 var lifeStyleRouter = require('./routes/lifeStyle');
 var detailRouter = require('./routes/detail');
+const compression = require('compression')
 
 const handlebars = require('handlebars');
 const {registerItem, registerItems} = require('./HandlebarsRegister/register');
@@ -26,6 +27,7 @@ var usersRouter = require('./routes/users');
 var expressHbs = require('express-handlebars');
 
 var app = express();
+app.use(compression())
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
