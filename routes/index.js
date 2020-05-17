@@ -5,7 +5,7 @@ const {coordinateHCMCity, webVOV} = require('../resource')
 
 const {scrapingHomeVOV} = require('../services/scraping');
 const {groupingNewsHome} = require('../services/helper');
-const {getCache, storage} = require('../cache/cache');
+//const {getCache, storage} = require('../cache/cache');
 
 
 const getNewsHomePage = async () => {
@@ -51,13 +51,13 @@ const getNewsHomePage = async () => {
 router.get('/', async function(req, res, next) {
   const temp = await apiWeather(coordinateHCMCity);
 
-  if(typeof getCache() == 'undefined')
-  {
-    const cacheStorage = await getNewsHomePage();
-    storage(cacheStorage);
-  }
+  // if(typeof getCache() == 'undefined')
+  // {
+  //   const cacheStorage = await getNewsHomePage();
+  //   storage(cacheStorage);
+  // }
 
-  const {postCategory, featurePostMedium, featurePostLarge, featurePostSmallBus, featurePostSmallHeal} = getCache();
+  const {postCategory, featurePostMedium, featurePostLarge, featurePostSmallBus, featurePostSmallHeal} = await getNewsHomePage();
   
   res.render('index', 
   {categoryNews: 'Trang chủ', temp, 
