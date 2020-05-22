@@ -1,20 +1,31 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-const {webVOV, coordinateHCMCity} = require('../resource');
-const {groupingNews} = require('../services/helper');
-const {scrapingVOV} = require('../services/scraping');
-const apiWeather = require('../services/apiWeather');
+const { webVOV } = require("../resource");
+const { groupingNews } = require("../services/api/helper");
+const { getData } = require("../cache/cache");
 
-router.get('/', async function(req, res, next) {
-  const temp = await apiWeather(coordinateHCMCity);
-  const data = await scrapingVOV(webVOV.categorySport);
+router.get("/", async function (req, res, next) {
+  const temp = await getData("temp");
 
-  const {newsFeaturePostLarge, newsFeaturePost, newsPost, newsShortContent} = groupingNews(data, "sport");
+  //const data = await scrapingVOV(webVOV.categorySport.url);
+  const data = await getData(webVOV.categorySport);
 
-  res.render('categories/viewNews', 
-  {newsFeaturePostLarge, newsFeaturePost, newsPost, newsShortContent,
-  categoryNews: "Thể thao", temp});
+  const {
+    newsFeaturePostLarge,
+    newsFeaturePost,
+    newsPost,
+    newsShortContent,
+  } = groupingNews(data, "sport");
+
+  res.render("categories/viewNews", {
+    newsFeaturePostLarge,
+    newsFeaturePost,
+    newsPost,
+    newsShortContent,
+    categoryNews: "Thể thao",
+    temp,
+  });
 });
 
 module.exports = router;

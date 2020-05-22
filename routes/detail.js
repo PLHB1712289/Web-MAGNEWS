@@ -1,17 +1,23 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-const {coordinateHCMCity} = require('../resource');
-const {groupingNews} = require('../services/helper');
-const {scrapingVOVNews} = require('../services/scraping');
-const apiWeather = require('../services/apiWeather');
+const { scrapingVOVNews } = require("../services/api/scraping");
+const { getData } = require("../cache/cache");
 
-router.get('/', async function(req, res, next) {
-  const temp = await apiWeather(coordinateHCMCity);
-  
+router.get("/", async function (req, res, next) {
+  const temp = await getData("temp");
+
   const url = req.query.url;
-  const {time, body, author, title, newsRelated} = await scrapingVOVNews(url);
-  res.render('detailNews', {time, body, author, title, temp, newsRelated});
+  const { time, body, author, title, newsRelated } = await scrapingVOVNews(url);
+  res.render("detailNews", {
+    time,
+    body,
+    author,
+    title,
+    temp,
+    newsRelated,
+    categoryNews: "Bài viết",
+  });
 });
 
 module.exports = router;
