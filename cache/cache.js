@@ -93,6 +93,8 @@ const getData = async (category) => {
       data = await scrapingVOV(category.url);
       pushData(data, category.id);
     }
+
+    // console.log(data);
     return data;
   }
 };

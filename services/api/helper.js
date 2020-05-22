@@ -7,25 +7,26 @@ const groupingNews = (listNews, categoryNews) => {
   let countNewsShortContent = 0;
 
   for (let i = 0; i < listNews.length; i++) {
-    listNews[i].link = `/detail?url=${listNews[i].link}`;
+    const news = Object.assign({}, listNews[i]);
+    news.link = `/detail?url=${news.link}`;
 
-    if (listNews[i].img !== "" && listNews[i].shortContent !== "") {
+    if (news.img !== "" && news.shortContent !== "") {
       if (newsFeaturePost.length < 4) {
-        listNews[i].categoryNews = categoryNews;
+        news.categoryNews = categoryNews;
 
         if (newsFeaturePostLarge.length == 0) {
-          newsFeaturePostLarge.push(listNews[i]);
+          newsFeaturePostLarge.push(news);
         } else {
-          newsFeaturePost.push(listNews[i]);
+          newsFeaturePost.push(news);
         }
       } else {
-        newsPost.push(listNews[i]);
+        newsPost.push(news);
       }
     } else {
-      if (listNews[i].shortContent !== "" && listNews[i].img === "") {
+      if (news.shortContent !== "" && news.img === "") {
         countNewsShortContent++;
-        listNews[i].countNewsShortContent = countNewsShortContent;
-        newsShortContent.push(listNews[i]);
+        news.countNewsShortContent = countNewsShortContent;
+        newsShortContent.push(news);
       }
     }
   }
@@ -42,8 +43,9 @@ const groupingNewsHome = (listNews) => {
   };
 
   for (let i = 1; i < listNews.length; i++) {
-    listNews[i].link = `/detail?url=${listNews[i].link}`;
-    newsFeaturePost.push(listNews[i]);
+    let news = Object.assign({}, listNews[i]);
+    news.link = `/detail?url=${news.link}`;
+    newsFeaturePost.push(news);
   }
 
   return { newsFeaturePost, newsFeaturePostLarge };

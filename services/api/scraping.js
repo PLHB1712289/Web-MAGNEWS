@@ -8,7 +8,7 @@ const scrapingVOV = async (category, pageNumber) => {
   if (typeof pageNumber == "undefined") {
     pageNumber = 1;
   }
-  const url = `https://${web}/${category}/trang${pageNumber}`;
+  const url = `http://${web}/${category}/trang${pageNumber}`;
 
   const res = await axios.get(url);
   const $ = cheerio.load(res.data);
@@ -21,7 +21,7 @@ const scrapingVOV = async (category, pageNumber) => {
       .text()
       .replace(/\s\s+/, "")
       .replace("\n", "");
-    const link = `https://${web}${$(element).find("a").attr("href")}`;
+    const link = `http://${web}${$(element).find("a").attr("href")}`;
     let img = $(element).find("img").attr("src");
     if (typeof img != "undefined") {
       if (link.split(category).length >= 2) {
@@ -38,7 +38,7 @@ const scrapingVOV = async (category, pageNumber) => {
 };
 
 const scrapingHomeVOV = async (category) => {
-  const url = `https://${web}/${category}/`;
+  const url = `http://${web}/${category}/`;
 
   const res = await axios.get(url);
   const $ = cheerio.load(res.data);
@@ -112,7 +112,7 @@ const scrapingVOVNews = async (url) => {
 
   $(".stories-style-123 .story").each((index, element) => {
     const img = $(element).find("img").attr("src");
-    const link = `/detail?url=https://${web}${$(element)
+    const link = `/detail?url=http://${web}${$(element)
       .find("a")
       .attr("href")}`;
     const title = $(element).find("a").attr("title");
@@ -125,4 +125,4 @@ const scrapingVOVNews = async (url) => {
 
 module.exports = { scrapingVOV, scrapingVOVNews, scrapingHomeVOV };
 
-//scrapingVOVNews("https://vov.vn/the-thao/bong-da/tuan-manh-chia-tay-khanh-hoa-la-vi-hlv-park-hang-seo-1048721.vov");
+//scrapingVOVNews("http://vov.vn/the-thao/bong-da/tuan-manh-chia-tay-khanh-hoa-la-vi-hlv-park-hang-seo-1048721.vov");

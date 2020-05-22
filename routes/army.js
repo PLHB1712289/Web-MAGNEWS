@@ -9,7 +9,7 @@ router.get("/", async function (req, res, next) {
   const temp = await getData("temp");
 
   //const data = await scrapingVOV(webVOV.categorySport.url);
-  const data = await getData(webVOV.categorySport);
+  const data = await getData(webVOV.categoryArmy);
   const {
     newsFeaturePostLarge,
     newsFeaturePost,
