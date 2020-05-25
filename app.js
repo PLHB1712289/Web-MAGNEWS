@@ -17,13 +17,13 @@ const healthRouter = require("./routes/health");
 const lifeStyleRouter = require("./routes/lifeStyle");
 const detailRouter = require("./routes/detail");
 
-//const autoUpdateDB = require("./services/serviceDB/update");
-//const connectDatabase = require("./services/serviceDB/connect");
-//connectDatabase();
+const { autoUpdateDB } = require("./services/serviceDB/update");
+const connectDatabase = require("./services/serviceDB/connect");
+connectDatabase();
 
 /*Start service auto update database*/
-//console.log("Start service auto update database !!");
-//autoUpdateDB();
+console.log("Start service auto update database !!");
+autoUpdateDB();
 
 const handlebars = require("handlebars");
 const {

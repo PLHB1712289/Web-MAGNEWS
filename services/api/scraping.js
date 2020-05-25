@@ -3,7 +3,28 @@ const axios = require("axios");
 
 const util = require("util");
 const web = "vov.vn";
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 
+const getDate = async (url) => {
+  const res = await axios.get(url);
+  const $ = cheerio.load(res.data);
+  const timeWrite = $("time").text().split(", ");
+
+  const date = timeWrite[2].split("/");
+  const time = timeWrite[1].split(":");
+
+  const day = date[0];
+  const month = date[1];
+  const year = date[2];
+
+  const hours = time[0];
+  const minutes = time[1];
+
+  return new Date(year, month, day, hours, minutes, 0, 0).getTime();
+  //return 0;
+};
 const scrapingVOV = async (category, pageNumber) => {
   if (typeof pageNumber == "undefined") {
     pageNumber = 1;
@@ -15,7 +36,7 @@ const scrapingVOV = async (category, pageNumber) => {
 
   const story = [];
 
-  $(".story").each((index, element) => {
+  $(".story").each(async (index, element) => {
     const title = $(element)
       .find("a")
       .text()
@@ -29,9 +50,11 @@ const scrapingVOV = async (category, pageNumber) => {
           title: title,
           img: img,
           link: link,
+          time: 0,
         });
       }
     }
+    await sleep(100);
   });
 
   return story;
@@ -78,7 +101,7 @@ const scrapingVOVNews = async (url) => {
 
   const title = $(".cms-title").text();
   const author = $(".cms-author").text();
-  const time = $("time").text();
+  const timeWrite = $("time").text();
 
   const body = [];
   const newsRelated = [];
@@ -120,9 +143,17 @@ const scrapingVOVNews = async (url) => {
     newsRelated.push({ img, link, title });
   });
 
-  return { time, body, title, author, newsRelated };
+  return { timeWrite, body, title, author, newsRelated };
 };
 
-module.exports = { scrapingVOV, scrapingVOVNews, scrapingHomeVOV };
+module.exports = { scrapingVOV, scrapingVOVNews, scrapingHomeVOV, getDate };
 
 //scrapingVOVNews("http://vov.vn/the-thao/bong-da/tuan-manh-chia-tay-khanh-hoa-la-vi-hlv-park-hang-seo-1048721.vov");
+// getDate(
+//   "https://vov.vn/the-thao/bong-da/thung-luoi-2-ban-trong-2-phut-bayern-munich-van-de-bep-frankfurt-1051827.vov"
+// ).then((data) => {
+//   console.log(data);
+
+//   const d = new Date(data);
+//   console.log(d);
+// });

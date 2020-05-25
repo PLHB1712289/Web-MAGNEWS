@@ -1,10 +1,16 @@
-const { scrapingVOV } = require("../api/scraping");
-const { webVOV, maxPageNumberDefault } = require("../../resource");
-const { maxTimeSleep } = require("../../resource");
+const { scrapingVOV, getDate } = require("../api/scraping");
+const {
+  webVOV,
+  maxPageNumberDefault,
+  maxTimeSleep,
+  maxNewsNeedAdd,
+} = require("../../resource");
 const newsModel = require("../../models/news");
 
 const maxPageNumber = maxPageNumberDefault;
 const timeSleep = maxTimeSleep;
+let isUpdate = false;
+let isFirstUpdate = true;
 
 const updateNews = async (news, category) => {
   const newsDB = await newsModel.findOne({ link: news.link });
@@ -15,6 +21,7 @@ const updateNews = async (news, category) => {
       img: news.img,
       link: news.link,
       category: category,
+      time: news.time,
     });
 
     newNews.save();
@@ -31,8 +38,24 @@ const updateDatabase = async () => {
     for (let pageNumber = maxPageNumber; pageNumber > 0; pageNumber--) {
       //do something
       const listNews = await scrapingVOV(webVOV[element].url, pageNumber);
-      for (let index = 0; index < listNews.length; index++) {
-        updateNews(listNews[index], webVOV[element].id);
+
+      let maxNews = maxNewsNeedAdd;
+      if (isFirstUpdate) {
+        maxNews = listNews.length;
+        isFirstUpdate = false;
+      }
+
+      for (let index = 0; index < maxNews; index++) {
+        let time;
+        try {
+          time = await getDate(listNews[index].link);
+        } catch (error) {
+          console.log(listNews[index].link);
+          time = 0;
+        }
+
+        listNews[index].time = time;
+        await updateNews(listNews[index], webVOV[element].id);
       }
     }
     console.log(webVOV[element].url);
@@ -47,10 +70,11 @@ const sleep = (ms) => {
 
 const autoUpdateDB = async () => {
   while (1) {
+    isUpdate = true;
     console.log("update database !!");
-    updateDatabase();
+    updateDatabase().then((data) => (isUpdate = false));
     await sleep(timeSleep);
   }
 };
 
-module.exports = autoUpdateDB;
+module.exports = { autoUpdateDB, isUpdate };

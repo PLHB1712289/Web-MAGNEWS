@@ -6,6 +6,7 @@ var newsShema = new Schema({
   img: String,
   link: String,
   category: Number,
+  time: Number,
 });
 
 module.exports = mongoose.model("news", newsShema);

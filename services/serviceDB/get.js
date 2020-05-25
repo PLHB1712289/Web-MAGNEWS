@@ -1,15 +1,26 @@
 const newModel = require("../../models/news");
-
 const { webVOV } = require("../../resource");
-const getNewsFromDatabase = require("./getNewsFromDatabase");
 const { groupingNewsHome } = require("../api/helper");
 
+const getNewsFromDatabase = async (category, limit) => {
+  if (typeof limit == "undefined") {
+    limit = 33;
+  }
+
+  const news = await newModel.find(
+    { category: category.id },
+    ["title", "img", "link"],
+    { skip: 0, limit: limit, sort: { time: -1 } }
+  );
+  return news;
+};
+
 const getNewsForHomePage = async () => {
-  const sportData = await getNewsFromDatabase(webVOV.categorySport, 5);
-  const businessData = await getNewsFromDatabase(webVOV.categoryBusiness, 5);
-  const worldData = await getNewsFromDatabase(webVOV.categoryWorld, 5);
-  const healthData = await getNewsFromDatabase(webVOV.categoryHealth, 5);
-  const armyData = await getNewsFromDatabase(webVOV.categoryArmy, 5);
+  const sportData = await getNewsFromDatabase(webVOV.categorySport, 4);
+  const businessData = await getNewsFromDatabase(webVOV.categoryBusiness, 4);
+  const worldData = await getNewsFromDatabase(webVOV.categoryWorld, 4);
+  const healthData = await getNewsFromDatabase(webVOV.categoryHealth, 4);
+  const armyData = await getNewsFromDatabase(webVOV.categoryArmy, 4);
 
   const sportNews = groupingNewsHome(sportData, "sport");
   const businessNews = groupingNewsHome(businessData, "business");
@@ -21,11 +32,6 @@ const getNewsForHomePage = async () => {
   const featurePostMedium = worldNews.newsFeaturePostLarge;
   const featurePostSmallBus = businessNews.newsFeaturePostLarge;
   const featurePostSmallHeal = healthNews.newsFeaturePostLarge;
-
-  // const featurePostLarge = null;
-  // const featurePostMedium = null;
-  // const featurePostSmallBus = null;
-  // const featurePostSmallHeal = null;
 
   const postCategory = [];
   postCategory.push({
@@ -62,4 +68,5 @@ const getNewsForHomePage = async () => {
     featurePostSmallHeal,
   };
 };
-module.exports = getNewsForHomePage;
+
+module.exports = { getNewsFromDatabase, getNewsForHomePage };

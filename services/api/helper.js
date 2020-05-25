@@ -7,26 +7,39 @@ const groupingNews = (listNews, categoryNews) => {
   let countNewsShortContent = 0;
 
   for (let i = 0; i < listNews.length; i++) {
-    const news = Object.assign({}, listNews[i]);
-    news.link = `/detail?url=${news.link}`;
-
-    if (news.img !== "" && news.shortContent !== "") {
+    if (listNews[i].img !== "" && listNews[i].shortContent !== "") {
       if (newsFeaturePost.length < 4) {
-        news.categoryNews = categoryNews;
-
         if (newsFeaturePostLarge.length == 0) {
-          newsFeaturePostLarge.push(news);
+          newsFeaturePostLarge.push({
+            title: listNews[i].title,
+            img: listNews[i].img,
+            link: `/detail?url=${listNews[i].link}`,
+            categoryNews: categoryNews,
+          });
         } else {
-          newsFeaturePost.push(news);
+          newsFeaturePost.push({
+            title: listNews[i].title,
+            img: listNews[i].img,
+            link: `/detail?url=${listNews[i].link}`,
+            categoryNews: categoryNews,
+          });
         }
       } else {
-        newsPost.push(news);
+        newsPost.push({
+          title: listNews[i].title,
+          img: listNews[i].img,
+          link: `/detail?url=${listNews[i].link}`,
+        });
       }
     } else {
-      if (news.shortContent !== "" && news.img === "") {
+      if (listNews[i].shortContent !== "" && listNews[i].img === "") {
         countNewsShortContent++;
-        news.countNewsShortContent = countNewsShortContent;
-        newsShortContent.push(news);
+        newsShortContent.push({
+          title: listNews[i].title,
+          img: listNews[i].img,
+          link: `/detail?url=${listNews[i].link}`,
+          countNewsShortContent: countNewsShortContent,
+        });
       }
     }
   }
@@ -43,9 +56,11 @@ const groupingNewsHome = (listNews) => {
   };
 
   for (let i = 1; i < listNews.length; i++) {
-    let news = Object.assign({}, listNews[i]);
-    news.link = `/detail?url=${news.link}`;
-    newsFeaturePost.push(news);
+    newsFeaturePost.push({
+      title: listNews[i].title,
+      img: listNews[i].img,
+      link: `/detail?url=${listNews[i].link}`,
+    });
   }
 
   return { newsFeaturePost, newsFeaturePostLarge };

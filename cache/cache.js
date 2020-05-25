@@ -2,6 +2,12 @@ const cache = require("memory-cache");
 const { coordinateHCMCity, webVOV } = require("../resource");
 const { scrapingVOV, scrapingHomeVOV } = require("../services/api/scraping");
 const { groupingNewsHome } = require("../services/api/helper");
+const { isUpdate } = require("../services/serviceDB/update");
+const {
+  getNewsForHomePage,
+  getNewsFromDatabase,
+} = require("../services/serviceDB/get");
+
 const apiWeather = require("../services/api/apiWeather");
 const timeDead = 10 * 60 * 1000;
 
@@ -70,7 +76,12 @@ const getData = async (category) => {
 
     if (data == null) {
       console.log("Nope Data");
-      data = await getNewsHomePage();
+      if (isUpdate) {
+        data = await getNewsHomePage();
+        console.log("Scraping !!");
+      } else {
+        data = await getNewsForHomePage();
+      }
       pushData(data, "home");
     }
 
@@ -90,7 +101,13 @@ const getData = async (category) => {
 
     if (data == null) {
       console.log("Nope Data");
-      data = await scrapingVOV(category.url);
+      if (isUpdate) {
+        data = await scrapingVOV(category.url);
+        console.log("Scraping !!");
+      } else {
+        data = await getNewsFromDatabase(category);
+      }
+
       pushData(data, category.id);
     }
 
