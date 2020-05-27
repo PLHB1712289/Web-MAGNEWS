@@ -67,7 +67,7 @@ const getNewsHomePage = async () => {
 };
 
 const pushData = (listNews, id) => {
-  cache.put(id, listNews);
+  cache.put(id, listNews, timeDead);
 };
 
 const getData = async (category, pageNumber) => {

@@ -23,7 +23,7 @@ connectDatabase();
 
 /*Start service auto update database*/
 console.log("Start service auto update database !!");
-//autoUpdateDB();
+autoUpdateDB();
 
 const handlebars = require("handlebars");
 const {
