@@ -1,7 +1,7 @@
 const cache = require("memory-cache");
 const { coordinateHCMCity, webVOV } = require("../resource");
 const { scrapingVOV, scrapingHomeVOV } = require("../services/api/scraping");
-const { groupingNewsHome } = require("../services/api/helper");
+const { groupingNewsHome, sleep } = require("../services/api/helper");
 const { isUpdate } = require("../services/serviceDB/update");
 const {
   getNewsForHomePage,
@@ -67,10 +67,10 @@ const getNewsHomePage = async () => {
 };
 
 const pushData = (listNews, id) => {
-  cache.put(id, listNews, timeDead);
+  cache.put(id, listNews);
 };
 
-const getData = async (category) => {
+const getData = async (category, pageNumber) => {
   if (category == "home") {
     let data = cache.get("home");
 
@@ -97,7 +97,15 @@ const getData = async (category) => {
 
     return data;
   } else {
-    let data = cache.get(category.id);
+    if (typeof pageNumber == "undefined") {
+      pageNumber = 1;
+    }
+    let data;
+    if (pageNumber == 1) {
+      data = cache.get(category.id);
+    } else {
+      data = null;
+    }
 
     if (data == null) {
       console.log("Nope Data");
@@ -105,10 +113,12 @@ const getData = async (category) => {
         data = await scrapingVOV(category.url);
         console.log("Scraping !!");
       } else {
-        data = await getNewsFromDatabase(category);
+        data = await getNewsFromDatabase(category, 34, pageNumber);
       }
 
-      pushData(data, category.id);
+      if (pageNumber == 1) {
+        pushData(data, category.id);
+      }
     }
 
     // console.log(data);

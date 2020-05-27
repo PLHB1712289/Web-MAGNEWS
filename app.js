@@ -23,15 +23,17 @@ connectDatabase();
 
 /*Start service auto update database*/
 console.log("Start service auto update database !!");
-autoUpdateDB();
+//autoUpdateDB();
 
 const handlebars = require("handlebars");
 const {
   registerItem,
   registerItems,
+  registerPageNumber,
 } = require("./HandlebarsRegister/register");
 registerItem(handlebars);
 registerItems(handlebars);
+registerPageNumber(handlebars);
 
 var usersRouter = require("./routes/users");
 

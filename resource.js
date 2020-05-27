@@ -40,6 +40,7 @@ module.exports = {
   maxPageNumberDefault: 1,
   maxTimeSleep: 60 * 60 * 1000,
   maxNewsNeedAdd: 10,
+  isFirstUpdate: false,
 
   accessTokenAPI: "b64d7379-67fc-4e18-8120-5676ac34ae63",
   urlAPI: "https://api-craping-web.herokuapp.com/",

@@ -1,11 +1,7 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-
-const util = require("util");
+const { sleep } = require("./helper");
 const web = "vov.vn";
-const sleep = (ms) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
 
 const getDate = async (url) => {
   const res = await axios.get(url);
@@ -101,7 +97,7 @@ const scrapingVOVNews = async (url) => {
 
   const title = $(".cms-title").text();
   const author = $(".cms-author").text();
-  const timeWrite = $("time").text();
+  const time = $("time").text();
 
   const body = [];
   const newsRelated = [];
@@ -143,17 +139,16 @@ const scrapingVOVNews = async (url) => {
     newsRelated.push({ img, link, title });
   });
 
-  return { timeWrite, body, title, author, newsRelated };
+  return { time, body, title, author, newsRelated };
 };
 
 module.exports = { scrapingVOV, scrapingVOVNews, scrapingHomeVOV, getDate };
 
-//scrapingVOVNews("http://vov.vn/the-thao/bong-da/tuan-manh-chia-tay-khanh-hoa-la-vi-hlv-park-hang-seo-1048721.vov");
 // getDate(
-//   "https://vov.vn/the-thao/bong-da/thung-luoi-2-ban-trong-2-phut-bayern-munich-van-de-bep-frankfurt-1051827.vov"
+//   "https://vov.vn/the-thao/bong-da/hlv-thanh-hoa-hoang-vu-samson-da-tao-nen-su-khac-biet-1052476.vov"
 // ).then((data) => {
 //   console.log(data);
 
 //   const d = new Date(data);
-//   console.log(d);
+//   console.log(d.getMonth());
 // });

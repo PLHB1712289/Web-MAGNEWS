@@ -23,8 +23,6 @@ router.get("/", async function (req, res, next) {
     featurePostSmallBus,
     featurePostSmallHeal,
   });
-
-  //increaseCountRequest();
 });
 
 module.exports = router;

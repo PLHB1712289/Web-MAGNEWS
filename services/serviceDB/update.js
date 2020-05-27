@@ -4,13 +4,13 @@ const {
   maxPageNumberDefault,
   maxTimeSleep,
   maxNewsNeedAdd,
+  isFirstUpdate,
 } = require("../../resource");
 const newsModel = require("../../models/news");
 
 const maxPageNumber = maxPageNumberDefault;
 const timeSleep = maxTimeSleep;
 let isUpdate = false;
-let isFirstUpdate = true;
 
 const updateNews = async (news, category) => {
   const newsDB = await newsModel.findOne({ link: news.link });
@@ -42,7 +42,6 @@ const updateDatabase = async () => {
       let maxNews = maxNewsNeedAdd;
       if (isFirstUpdate) {
         maxNews = listNews.length;
-        isFirstUpdate = false;
       }
 
       for (let index = 0; index < maxNews; index++) {

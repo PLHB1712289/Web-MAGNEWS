@@ -2,16 +2,22 @@ const newModel = require("../../models/news");
 const { webVOV } = require("../../resource");
 const { groupingNewsHome } = require("../api/helper");
 
-const getNewsFromDatabase = async (category, limit) => {
+const getNewsFromDatabase = async (category, limit, pageNumber) => {
   if (typeof limit == "undefined") {
     limit = 33;
   }
 
+  let skipNews = 0;
+  if (typeof pageNumber != "undefined") {
+    skipNews = (pageNumber - 1) * 33;
+  }
+
   const news = await newModel.find(
     { category: category.id },
-    ["title", "img", "link"],
-    { skip: 0, limit: limit, sort: { time: -1 } }
+    ["title", "img", "link", "time"],
+    { skip: skipNews, limit: limit, sort: { time: -1 } }
   );
+
   return news;
 };
 

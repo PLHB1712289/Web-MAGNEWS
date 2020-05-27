@@ -6,19 +6,60 @@ const { groupingNews } = require("../services/api/helper");
 const { getData } = require("../cache/cache");
 
 router.get("/", async function (req, res, next) {
-  const temp = await getData("temp");
+  let pageNumber = req.query.page;
+  if (typeof pageNumber == "undefined") {
+    pageNumber = 1;
+  }
+  pageNumber = parseInt(pageNumber);
+  if (pageNumber <= 0) {
+    pageNumber = 1;
+  }
 
-  //const data = await scrapingVOV(webVOV.categorySport.url);
-  const data = await getData(webVOV.categoryEntertainment);
+  const temp = await getData("temp");
+  let data = (await getData(webVOV.categoryEntertainment, pageNumber)).slice(0);
+
+  //const data = Object.assign({}, result);
+  const listPage = [];
+  if (data.length > 33) {
+    if (pageNumber - 1 > 0) {
+      listPage.push({
+        pageNumber: pageNumber - 1,
+        link: `/entertainment?page=${pageNumber - 1}`,
+        isActive: false,
+      });
+    }
+    listPage.push({
+      pageNumber: pageNumber,
+      link: `/entertainment?page=${pageNumber}`,
+      isActive: true,
+    });
+    listPage.push({
+      pageNumber: pageNumber + 1,
+      link: `/entertainment?page=${pageNumber + 1}`,
+      isActive: false,
+    });
+  } else {
+    if (pageNumber - 1 > 0) {
+      listPage.push({
+        pageNumber: pageNumber - 1,
+        link: `/entertainment?page=${pageNumber - 1}`,
+        isActive: false,
+      });
+    }
+    listPage.push({
+      pageNumber: pageNumber,
+      link: `/entertainment?page=${pageNumber}`,
+      isActive: true,
+    });
+  }
+
+  data.pop();
   const {
     newsFeaturePostLarge,
     newsFeaturePost,
     newsPost,
     newsShortContent,
   } = groupingNews(data, "entertainment");
-
-  // console.log("\n\n\n==========ROUTER==========");
-  // console.log(data);
 
   res.render("categories/viewNews", {
     newsFeaturePostLarge,
@@ -27,6 +68,7 @@ router.get("/", async function (req, res, next) {
     newsShortContent,
     categoryNews: "Giải trí",
     temp,
+    listPage,
   });
 });
 

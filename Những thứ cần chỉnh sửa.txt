@@ -2,9 +2,9 @@
 _________________________________________________________________________
 |                Phần cần chỉnh sửa                  |    Trạng thái    |
 -------------------------------------------------------------------------
-| 1. Chỉnh sửa trang chủ, thể loại của các chuyên mục|                  |
+| 1. Chỉnh sửa trang chủ, thể loại của các chuyên mục|    Hoàn thành    |
 -------------------------------------------------------------------------
-| 2. Phân trang                                      |                  |
+| 2. Phân trang                                      |    Hoàn thành    |
 -------------------------------------------------------------------------
 | 3. Cho phép bình luận                              |                  |
 -------------------------------------------------------------------------
@@ -14,10 +14,20 @@ _________________________________________________________________________
 -------------------------------------------------------------------------
 | 6. Hiển thị thêm bài viết trong từng chuyên mục    |                  |
 -------------------------------------------------------------------------
-| 7. Tự động update cache                            |                  |
+| 7. Thêm tính năng scraping bài viết video          |                  |
 -------------------------------------------------------------------------
-| 8. Chỉnh sửa footer                                |                  |
+| 8. Chỉnh sửa footer                                |    Hoàn thành    |
 -------------------------------------------------------------------------
 | 9. Thêm tag, cho phép tìm bài viết theo tag        |                  |
 -------------------------------------------------------------------------
 =========================================================================
+
+I. Kỹ thuật phân trang:
+    - Dùng skip và limit để lấy dữ liệu từ database.
+    - Không cần caching lại
+    - Làm sao để biết được phía sau vẫn còn trang?
+        + Giải pháp: giả sử cần lấy 10 thông tin để hiển thị lên web, nhưng thực tế chúng ta sẽ lấy 11. Đến lúc lấy dữ liệu về, chúng ta sẽ tiến hành kiểm tra độ dài của mảng vừa lấy được, nếu nhỏ hơn hoặc bằng 10 nghĩa là phía sau không còn dữ liệu nữa, nếu là 11 thì phía sau vẫn còn dữ liệu.
+    - Chỉ hiển thị 3 trang gần nhất. VD: 1 2 3, hoặc 2 3 4, hoặc 10 11 12
+    - Chống chọi với ngoại lệ: giả sử người dùng nhập vào url string vào tham số page (VD: /sport?page=1000000000) một con số rất lớn.
+        + Giải pháp: nếu lấy dữ liệu từ database về bằng 0 thì trang sẽ hiển thị page đầu tiên.
+    

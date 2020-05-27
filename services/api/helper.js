@@ -1,3 +1,19 @@
+const Month = [
+  "",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 const groupingNews = (listNews, categoryNews) => {
   const newsFeaturePostLarge = [];
   const newsFeaturePost = [];
@@ -47,26 +63,41 @@ const groupingNews = (listNews, categoryNews) => {
   return { newsFeaturePostLarge, newsFeaturePost, newsPost, newsShortContent };
 };
 
-const groupingNewsHome = (listNews) => {
+const groupingNewsHome = (listNews, category) => {
   const newsFeaturePost = [];
+
+  let time = new Date(listNews[0].time);
+  let strTime = `${Month[time.getMonth()]} ${time.getDate()}`;
+
   const newsFeaturePostLarge = {
     title: listNews[0].title,
     img: listNews[0].img,
     link: `/detail?url=${listNews[0].link}`,
+    category: category,
+    time: strTime,
   };
 
   for (let i = 1; i < listNews.length; i++) {
+    time = new Date(listNews[i].time);
+    strTime = `${Month[time.getMonth()]} ${time.getDate()}`;
     newsFeaturePost.push({
       title: listNews[i].title,
       img: listNews[i].img,
       link: `/detail?url=${listNews[i].link}`,
+      category: category,
+      time: strTime,
     });
   }
 
   return { newsFeaturePost, newsFeaturePostLarge };
 };
 
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 module.exports = {
   groupingNews,
   groupingNewsHome,
+  sleep,
 };
