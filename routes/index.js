@@ -22,6 +22,7 @@ router.get("/", async function (req, res, next) {
     featurePostLarge,
     featurePostSmallBus,
     featurePostSmallHeal,
+    user: req.user,
   });
 });
 

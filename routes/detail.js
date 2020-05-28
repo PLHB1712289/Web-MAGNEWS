@@ -17,6 +17,7 @@ router.get("/", async function (req, res, next) {
     temp,
     newsRelated,
     categoryNews: "Bài viết",
+    user: req.user,
   });
 });
 

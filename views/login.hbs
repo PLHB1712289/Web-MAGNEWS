@@ -1,0 +1,11 @@
+{{#if user}}
+<h2>Hello, {{user.displayName}} .</h2>
+<p>ID: {{user.id}}</p>
+<p>Name :{{user.displayName}}</p>
+<a href="login/logout">Logout</a>
+{{else}}
+<div style="width:500px;height:180px;">
+    <h2 style="font-size:40px;">Welcome! Please log in.</h2>
+    <a href="login/auth/facebook">Login with Facebook</a>
+</div>
+{{/if}}

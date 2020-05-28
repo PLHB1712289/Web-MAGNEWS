@@ -70,6 +70,7 @@ router.get("/", async function (req, res, next) {
     categoryNews: "Quân sự",
     temp,
     listPage,
+    user: req.user,
   });
 });
 

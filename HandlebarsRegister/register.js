@@ -64,6 +64,12 @@ const registerItems = (handlebars) => {
   });
 };
 
+const registerIsDefined = (handlebars) => {
+  handlebars.registerHelper("isUnDefined", function (value) {
+    return typeof value === "undefined";
+  });
+};
+
 const registerPageNumber = (handlebars) => {
   handlebars.registerHelper("page", function (items, block) {
     //item = {pageNumber, link, isActive:true or false};
@@ -82,4 +88,9 @@ const registerPageNumber = (handlebars) => {
   });
 };
 
-module.exports = { registerItem, registerItems, registerPageNumber };
+module.exports = {
+  registerItem,
+  registerItems,
+  registerPageNumber,
+  registerIsDefined,
+};

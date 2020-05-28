@@ -70,6 +70,7 @@ router.get("/", async function (req, res, next) {
     categoryNews: "Thể thao",
     temp,
     listPage,
+    user: req.user,
   });
 });
 

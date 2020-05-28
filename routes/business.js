@@ -70,6 +70,7 @@ router.get("/", async function (req, res, next) {
     categoryNews: "Kinh tế",
     temp,
     listPage,
+    user: req.user,
   });
 });
 

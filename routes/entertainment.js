@@ -69,6 +69,7 @@ router.get("/", async function (req, res, next) {
     categoryNews: "Giải trí",
     temp,
     listPage,
+    user: req.user,
   });
 });
 

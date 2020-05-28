@@ -70,6 +70,7 @@ router.get("/", async function (req, res, next) {
     categoryNews: "Đời sống",
     temp,
     listPage,
+    user: req.user,
   });
 });
 

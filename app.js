@@ -4,6 +4,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const compression = require("compression");
+const passport = require("passport");
+const config = require("./config/configPassport");
 
 const indexRouter = require("./routes/index");
 const entertainmentRouter = require("./routes/entertainment");
@@ -16,32 +18,35 @@ const armyRouter = require("./routes/army");
 const healthRouter = require("./routes/health");
 const lifeStyleRouter = require("./routes/lifeStyle");
 const detailRouter = require("./routes/detail");
+const loginRouter = require("./routes/login");
+const usersRouter = require("./routes/users");
 
 const { autoUpdateDB } = require("./services/serviceDB/update");
 const connectDatabase = require("./services/serviceDB/connect");
 connectDatabase();
 
 /*Start service auto update database*/
-console.log("Start service auto update database !!");
-autoUpdateDB();
+//console.log("Start service auto update database !!");
+//autoUpdateDB();
 
 const handlebars = require("handlebars");
 const {
   registerItem,
   registerItems,
   registerPageNumber,
+  registerIsDefined,
 } = require("./HandlebarsRegister/register");
 registerItem(handlebars);
 registerItems(handlebars);
 registerPageNumber(handlebars);
-
-var usersRouter = require("./routes/users");
+registerIsDefined(handlebars);
 
 var expressHbs = require("express-handlebars");
 
 var app = express();
 app.use(compression());
 
+config(app, passport);
 // view engine setup
 app.engine(".hbs", expressHbs({ defaultLayout: "layout", extname: ".hbs" }));
 app.set("views", path.join(__dirname, "views"));
@@ -64,6 +69,7 @@ app.use("/health", healthRouter);
 app.use("/army", armyRouter);
 app.use("/world", worldRouter);
 app.use("/detail", detailRouter);
+app.use("/login", loginRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler

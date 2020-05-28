@@ -69,6 +69,7 @@ router.get("/", async function (req, res, next) {
     categoryNews: "Thế giới",
     temp,
     listPage,
+    user: req.user,
   });
 });
 

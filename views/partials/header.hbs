@@ -25,13 +25,22 @@
 						Contact
 					</a>
 
-					<a href="#" onclick="alert('Tính năng đang hoàn thiện')" class="left-topbar-item">
+					{{!-- <a href="#" onclick="alert('Tính năng đang hoàn thiện')" class="left-topbar-item">
 						Sing up
-					</a>
+					</a> --}}
 
-					<a href="#" onclick="alert('Tính năng đang hoàn thiện')" class="left-topbar-item">
+					{{#if user}}
+					<a href="/login/account" class="left-topbar-item">
+						Chào {{user.displayName}}
+					</a>
+					<a href="/login/logout" class="left-topbar-item">
+						Log out
+					</a>
+					{{else}}
+					<a href="/login/auth/facebook" class="left-topbar-item">
 						Log in
 					</a>
+					{{/if}}
 				</div>
 
 				<div class="right-topbar">
