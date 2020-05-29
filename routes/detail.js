@@ -13,6 +13,7 @@ router.get("/", async function (req, res, next) {
   } else {
     const listComment = await commentModel.find({ urlNews: url });
     const actionForm = `/detail?url=${url}`;
+    const shareLink = `http://magnews.herokuapp.com${actionForm}`;
     const { time, body, author, title, newsRelated } = await scrapingVOVNews(
       url
     );
@@ -27,6 +28,7 @@ router.get("/", async function (req, res, next) {
       user: req.user,
       actionForm,
       listComment,
+      shareLink,
     });
   }
 });

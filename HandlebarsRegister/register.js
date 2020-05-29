@@ -120,12 +120,33 @@ const registerComment = (handlebars) => {
   });
 };
 
+const registerScript = (handlebars) => {
+  let str = "";
+  handlebars.registerHelper("script", function (shareLink, block) {
+    str = `<script>
+    document
+        .getElementById("share-button")
+        .addEventListener("click", function () {
+          FB.ui(
+            {
+              method: "feed",
+              link: "${shareLink}",
+            },
+            function (response) {}
+          );
+        });
+        </script>`;
+    return new handlebars.SafeString(str);
+  });
+};
+
 const registerAll = (handlebars) => {
   registerItem(handlebars);
   registerItems(handlebars);
   registerPageNumber(handlebars);
   registerIsDefined(handlebars);
   registerComment(handlebars);
+  registerScript(handlebars);
 };
 
 module.exports = registerAll;

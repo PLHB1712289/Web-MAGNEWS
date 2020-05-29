@@ -39241,7 +39241,26 @@
 	{{>header}}
 	{{{body}}}
 	{{>footer}}
+
 	<script src="js/scripts.js"></script>
+	<script src="js/login.js"></script>
+	<script>
+		window.fbAsyncInit = function () {
+			FB.init({
+				appId: '251521479248603',
+				autoLogAppEvents: true,
+				xfbml: true,
+				version: 'v7.0'
+			});
+
+			FB.getLoginStatus(function (response) {
+				//statusChangeCallback(response);
+				console.log(response);
+			});
+		};
+	</script>
+	{{#script shareLink}}{{/script}}
+	<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 </body>
 
 </html>
