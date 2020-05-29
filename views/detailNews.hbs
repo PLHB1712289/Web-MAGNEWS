@@ -84,31 +84,37 @@
 						<h4 class="f1-l-4 cl3 p-b-12">
 							Bình luận
 						</h4>
-						{{!-- <div style="background-color: aquamarine; border: 2px solid; border-radius: 3px">
 
-
-							<div style="background-color: blueviolet;">
-								<span style="background-color: aquamarine;">hello</span>
-								<div style="background-color: aquamarine; width: auto; padding: 10px">
-									hellohellohellohellohellohellohelloh
-									ellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello
+						{{!-- <div style="border: 2px groove; border-radius: 3px; padding: 2px; background-color:#dcdcdc"> --}}
+						{{!-- <div
+								style="margin-bottom: 10px; background-color:#b6b6b6; color: black; border-radius: 2px">
+								<span style=" width: 100px">Phan Bảo: </span>
+								<span: style="width: auto; padding">
+									Tin này rất hay
+								</span:>
+								<div style="font-size: 10px;">
+									09:55 - 28/5/2020
 								</div>
 							</div>
-							<div style="background-color: blueviolet;">
-								hello
-							</div>
-							<div style="background-color: blueviolet;">
-								hello
-							</div>
-						</div> --}}
+
+							<div style="margin-bottom: 5px">
+								<span style=" width: 100px">Phan Bảo: </span>
+								<span: style="width: auto; padding">
+									hello
+								</span:>
+								<div style="font-size: 10px;">
+									thời gian
+								</div>
+							</div> --}}
+						{{#comment listComment}}{{/comment}}
+						{{!-- </div> --}}
 
 
-						<form method="POST" action="/">
+						<form method="POST" action="{{actionForm}}">
 							<textarea class="bo-1-rad-3 bocl13 size-a-15 f1-s-13 cl5 plh6 p-rl-18 p-tb-14 m-b-20"
 								name="msg" placeholder="Comment..."></textarea>
 
-							<button onclick="alert('Tính năng đang hoàn thiện')"
-								class="size-a-17 bg2 borad-3 f1-s-12 cl0 hov-btn1 trans-03 p-rl-15 m-t-10">
+							<button class="size-a-17 bg2 borad-3 f1-s-12 cl0 hov-btn1 trans-03 p-rl-15 m-t-10">
 								Post Comment
 							</button>
 						</form>

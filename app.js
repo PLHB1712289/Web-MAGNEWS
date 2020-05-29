@@ -30,16 +30,8 @@ connectDatabase();
 //autoUpdateDB();
 
 const handlebars = require("handlebars");
-const {
-  registerItem,
-  registerItems,
-  registerPageNumber,
-  registerIsDefined,
-} = require("./HandlebarsRegister/register");
-registerItem(handlebars);
-registerItems(handlebars);
-registerPageNumber(handlebars);
-registerIsDefined(handlebars);
+const registerAll = require("./HandlebarsRegister/register");
+registerAll(handlebars);
 
 var expressHbs = require("express-handlebars");
 

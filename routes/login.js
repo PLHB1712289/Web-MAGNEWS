@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const passport = require("passport");
+const ensureAuthenticated = require("../config/ensureAuth");
 
 /* GET users listing. */
 router.get("/", function (req, res) {
@@ -37,9 +38,3 @@ router.get("/logout", function (req, res) {
 });
 
 module.exports = router;
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
