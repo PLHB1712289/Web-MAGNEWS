@@ -86,29 +86,30 @@
 							Bình luận
 						</h4>
 
-						{{!-- <div style="border: 2px groove; border-radius: 3px; padding: 2px; background-color:#dcdcdc"> --}}
-						{{!-- <div
-								style="margin-bottom: 10px; background-color:#b6b6b6; color: black; border-radius: 2px">
-								<span style=" width: 100px">Phan Bảo: </span>
-								<span: style="width: auto; padding">
-									Tin này rất hay
-								</span:>
-								<div style="font-size: 10px;">
-									09:55 - 28/5/2020
+						<div class="container" style="margin-bottom: 5px">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="comments-list">
+										{{!-- <div class="media">
+											<p class="pull-right"><small>5 days ago</small></p>
+											<a class="media-left" href="#">
+												<img
+													src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2591230111114975&height=50&width=50&ext=1593397082&hash=AeRcdRwQpMJxRTSO">
+											</a>
+											<div class="media-body">
+
+												<h4 class="media-heading user_name">Baltej Singh</h4>
+												Wow! this is really great.
+											</div>
+										</div> --}}
+										{{#comment listComment}}{{/comment}}
+									</div>
+
+
+
 								</div>
 							</div>
-
-							<div style="margin-bottom: 5px">
-								<span style=" width: 100px">Phan Bảo: </span>
-								<span: style="width: auto; padding">
-									hello
-								</span:>
-								<div style="font-size: 10px;">
-									thời gian
-								</div>
-							</div> --}}
-						{{#comment listComment}}{{/comment}}
-						{{!-- </div> --}}
+						</div>
 
 
 						<form method="POST" action="{{actionForm}}">

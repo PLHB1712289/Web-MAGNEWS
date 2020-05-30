@@ -95,26 +95,24 @@ const registerComment = (handlebars) => {
     if (typeof items == "undefined" || items.length == 0) {
       str = "";
     } else {
-      str += `<div style="border: 2px groove; border-radius: 3px; padding: 2px; background-color:#dcdcdc">`;
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
         const time = new Date(item.time);
         const timeString = `${time.getHours()}:${time.getMinutes()} - ${time.getDate()}/${
           time.getMonth() + 1
         }/${time.getFullYear()}`;
-        str += `<div
-								style="margin-bottom: 10px; color: black; border-radius: 2px">
-								<span style=" width: 100px">${item.userName}: </span>
-								<span style="width: auto; padding">
-									${item.msg}
-								</span>
-								<div style="font-size: 10px;">
-									${timeString}
-								</div>
-							</div>`;
+        str += `<div class="media">
+									<p class="pull-right"><small>${timeString}</small></p>
+									<a class="media-left" href="#">
+										<img
+											src="${item.avatar}">
+									</a>
+									<div class="media-body">
+										<h4 class="media-heading user_name">${item.userName}</h4>
+										${item.msg}
+									</div>
+								</div>`;
       }
-
-      str += `</div>`;
     }
     return new handlebars.SafeString(str);
   });

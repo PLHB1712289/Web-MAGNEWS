@@ -2,6 +2,7 @@ const key = require("./key");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const axios = require("axios");
 
 const config = (app, passport) => {
   console.log("config passport");
@@ -14,8 +15,18 @@ const config = (app, passport) => {
         callbackURL: key.callback_url,
       },
       function (accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {
+        process.nextTick(async function () {
           console.log(accessToken, refreshToken, profile, done);
+          const avatarRequest = await axios.get(
+            `https://graph.facebook.com/${profile.id}/picture?redirect=false&access+token=${accessToken}`
+          );
+          const avatar = avatarRequest.data.data.url;
+          //console.log(avatarRequest);
+          profile = {
+            id: profile.id,
+            displayName: profile.displayName,
+            avatar: avatar,
+          };
           return done(null, profile);
         });
       }

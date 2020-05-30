@@ -45,6 +45,7 @@ router.post("/", ensureAuthenticated, async (req, res, next) => {
     userName: userName,
     time: time,
     urlNews: url,
+    avatar: req.user.avatar,
   });
 
   newComment.save();
