@@ -95,51 +95,65 @@ const scrapingVOVNews = async (url) => {
   const res = await axios.get(url);
   const $ = cheerio.load(res.data);
 
-  const title = $(".cms-title").text();
+  let isVideo = undefined;
+  let title = $(".cms-title").text();
   const author = $(".cms-author").text();
   const time = $("time").text();
 
   const body = [];
   const newsRelated = [];
 
-  $(".cms-body").each((index, element) => {
-    $(element)
-      .find("img")
-      .each((index, e) => {
-        let title = $(e).attr("data-desc");
+  const srcIframe = $(".main .cms-video").find("iframe").attr("src");
+  if (typeof srcIframe != "undefined") {
+    const srcVideo = srcIframe.split("&image=")[0].split("?video=")[1];
+    console.log("X\n" + srcVideo);
+    isVideo = true;
+    body.push({
+      srcVideo: srcVideo,
+    });
 
-        if (typeof title == "undefined") title = $(e).attr("cms-photo-caption");
+    title = $(".heading").text();
+  } else {
+    $(".cms-body").each((index, element) => {
+      $(element)
+        .find("img")
+        .each((index, e) => {
+          let title = $(e).attr("data-desc");
 
+          if (typeof title == "undefined")
+            title = $(e).attr("cms-photo-caption");
+
+          body.push({
+            img: {
+              title,
+              src: $(e).attr("src"),
+            },
+            paragraph: "",
+          });
+        });
+
+      let cont = $(element).find("p");
+      cont.each((i, e) => {
+        //console.log($(e).text() + '\n');
         body.push({
-          img: {
-            title,
-            src: $(e).attr("src"),
-          },
-          paragraph: "",
+          img: "",
+          paragraph: $(e).text().replace("\n", ""),
         });
       });
-
-    let cont = $(element).find("p");
-    cont.each((i, e) => {
-      //console.log($(e).text() + '\n');
-      body.push({
-        img: "",
-        paragraph: $(e).text().replace("\n", ""),
-      });
     });
-  });
 
-  $(".stories-style-123 .story").each((index, element) => {
-    const img = $(element).find("img").attr("src");
-    const link = `/detail?url=http://${web}${$(element)
-      .find("a")
-      .attr("href")}`;
-    const title = $(element).find("a").attr("title");
+    $(".stories-style-123 .story").each((index, element) => {
+      const img = $(element).find("img").attr("src");
+      const link = `/detail?url=http://${web}${$(element)
+        .find("a")
+        .attr("href")}`;
+      const title = $(element).find("a").attr("title");
 
-    newsRelated.push({ img, link, title });
-  });
+      newsRelated.push({ img, link, title });
+    });
+  }
 
-  return { time, body, title, author, newsRelated };
+  return { time, body, title, author, newsRelated, isVideo };
 };
 
 module.exports = { scrapingVOV, scrapingVOVNews, scrapingHomeVOV, getDate };

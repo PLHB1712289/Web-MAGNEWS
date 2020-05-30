@@ -14,9 +14,14 @@ router.get("/", async function (req, res, next) {
     const listComment = await commentModel.find({ urlNews: url });
     const actionForm = `/detail?url=${url}`;
     const shareLink = `http://magnews.herokuapp.com${actionForm}`;
-    const { time, body, author, title, newsRelated } = await scrapingVOVNews(
-      url
-    );
+    const {
+      time,
+      body,
+      author,
+      title,
+      newsRelated,
+      isVideo,
+    } = await scrapingVOVNews(url);
     res.render("detailNews", {
       time,
       body,
@@ -29,6 +34,7 @@ router.get("/", async function (req, res, next) {
       actionForm,
       listComment,
       shareLink,
+      isVideo,
     });
   }
 });
