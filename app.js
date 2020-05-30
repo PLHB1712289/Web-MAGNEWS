@@ -26,8 +26,8 @@ const connectDatabase = require("./services/serviceDB/connect");
 connectDatabase();
 
 /*Start service auto update database*/
-//console.log("Start service auto update database !!");
-//autoUpdateDB();
+console.log("Start service auto update database !!");
+autoUpdateDB();
 
 const handlebars = require("handlebars");
 const registerAll = require("./HandlebarsRegister/register");
