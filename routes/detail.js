@@ -33,6 +33,7 @@ router.get("/", async function (req, res, next) {
       user: req.user,
       actionForm,
       listComment,
+      countComment: listComment.length,
       shareLink,
       isVideo,
     });
@@ -54,7 +55,7 @@ router.post("/", ensureAuthenticated, async (req, res, next) => {
     avatar: req.user.avatar,
   });
 
-  newComment.save();
+  await newComment.save();
   const listComment = await commentModel.find({ urlNews: url });
 
   const temp = await getData("temp");
@@ -63,9 +64,14 @@ router.post("/", ensureAuthenticated, async (req, res, next) => {
     res.send("url not found !!");
   } else {
     const actionForm = `/detail?url=${url}`;
-    const { time, body, author, title, newsRelated } = await scrapingVOVNews(
-      url
-    );
+    const {
+      time,
+      body,
+      author,
+      title,
+      newsRelated,
+      isVideo,
+    } = await scrapingVOVNews(url);
     res.render("detailNews", {
       time,
       body,
@@ -77,6 +83,8 @@ router.post("/", ensureAuthenticated, async (req, res, next) => {
       user: req.user,
       actionForm,
       listComment,
+      countComment: listComment.length,
+      isVideo,
     });
   }
 });
