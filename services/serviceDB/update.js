@@ -39,6 +39,10 @@ const updateDatabase = async () => {
       //do something
       const listNews = await scrapingVOV(webVOV[element].url, pageNumber);
 
+      console.log(listNews);
+
+      if (listNews.length === 0) return;
+
       let maxNews = maxNewsNeedAdd;
       if (isFirstUpdate) {
         maxNews = listNews.length;
@@ -49,7 +53,6 @@ const updateDatabase = async () => {
         try {
           time = await getDate(listNews[index].link);
         } catch (error) {
-          console.log(listNews[index].link);
           time = 0;
         }
 
